@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WhiskySearch</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_whisky_list">WhiskyListActivity</string>
+    <string name="title_activity_whisky_detail">WhiskyDetailActivity</string>
+
+</resources>

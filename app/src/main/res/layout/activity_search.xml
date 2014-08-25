@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="geese.dk.whiskysearch.SearchActivity" >
+
+    <!-- Container for centering search fields in the middle -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <!-- Distillery -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_distillery"
+            android:hint="Distillery"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginBottom="5dp"/>
+
+        <!-- Name -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_name"
+            android:layout_marginBottom="5dp"
+            android:hint="Name"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:text="highland"/>
+
+        <!-- Age -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_age"
+            android:hint="Age"
+            android:text="10"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginBottom="5dp"/>
+
+        <!-- Bottled -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_bottled"
+            android:hint="Bottled"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginBottom="5dp"/>
+
+        <!-- Bottler -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_bottler"
+            android:hint="Bottler"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+
+    <!-- Database test -->
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Get from DB"
+        android:id="@+id/checkBox"/>
+
+    <!-- Search button -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Search"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:longClickable="false"
+        android:onClick="onBtnSearch"/>
+
+</RelativeLayout>

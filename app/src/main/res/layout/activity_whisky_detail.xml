@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The third line with yelp is apparently needed to make web image view work... -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:yelp="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="geese.dk.whiskysearch.WhiskyDetailActivity" >
+
+    <!-- Web image view for showing the whisky -->
+    <com.yelp.android.webimageview.WebImageView
+        android:id="@+id/image"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- Main name of whisky -->
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Bottler -->
+    <TextView
+        android:id="@+id/bottler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Bottled -->
+    <TextView
+        android:id="@+id/bottled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Strength -->
+    <TextView
+        android:id="@+id/strength"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Cask number -->
+    <TextView
+        android:id="@+id/cask_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Age -->
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"/>
+
+        <!-- Rating -->
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"/>
+
+    </LinearLayout>
+
+</LinearLayout>
