@@ -18,6 +18,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import geese.dk.whiskysearch.database.DatabaseHelper;
+import geese.dk.whiskysearch.database.WhiskyDataSource;
 import geese.dk.whiskysearch.helpers.Reachability;
 import geese.dk.whiskysearch.helpers.Whisky;
 import geese.dk.whiskysearch.helpers.WhiskySearch;
@@ -31,6 +32,8 @@ public class SearchActivity extends ActionBarActivity
 
     private WhiskySearch mSearch;
 
+    //private WhiskyDataSource mDatasource;
+
     /**
      * Called when the activity is created.
      * */
@@ -39,6 +42,9 @@ public class SearchActivity extends ActionBarActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+
+        //mDatasource = new WhiskyDataSource(this);
+        //mDatasource.open();
 
         // initializes the image loader for the web image view
         ImageLoader.initialize(this, null);
@@ -49,6 +55,20 @@ public class SearchActivity extends ActionBarActivity
         mEditBottled = (EditText)findViewById(R.id.edit_bottled);
         mEditBottler = (EditText)findViewById(R.id.edit_bottler);
 	}
+
+    @Override
+    protected void onResume()
+    {
+        //mDatasource.open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        //mDatasource.close();
+        super.onPause();
+    }
 
 	/**
      * Called when the search button is pressed.
@@ -133,6 +153,7 @@ public class SearchActivity extends ActionBarActivity
 	                                whiskyList.add(whisky);
 
                                     // and save whisky to DB
+                                    //mDatasource.addWhisky(whisky);
                                     DatabaseHelper.instance(SearchActivity.this).addWhisky(whisky);
 	                            }
 	                        }
@@ -142,6 +163,7 @@ public class SearchActivity extends ActionBarActivity
                     else
                     {
                         // get whiskies from database instead
+                        //ArrayList<Whisky> whiskies = mDatasource.getWhiskies(mSearch);
                         ArrayList<Whisky> whiskies = DatabaseHelper.instance(SearchActivity.this).getWhiskies(mSearch);
 
                         for(Whisky whisky : whiskies)

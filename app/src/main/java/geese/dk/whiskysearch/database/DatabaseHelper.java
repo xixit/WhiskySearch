@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String COLUMN_DETAILS_URL = "detailsURL";
 
     // database creation sql statement
-    private static final String DATABASE_CREATE = "CREATE TABLE " +
+    private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " +
             TABLE_WHISKIES + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_AGE + " TEXT, " +
@@ -42,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
             COLUMN_IMAGE_URL + " TEXT, " +
             COLUMN_DETAILS_URL + " TEXT);";
 
-    private DatabaseHelper(Context context)
+    public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -50,14 +51,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
+        Log.v("DatabaseHelper", "Creating database!!!");
         sqLiteDatabase.execSQL(DATABASE_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2)
     {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS whiskies");
-        onCreate(sqLiteDatabase);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS whiskies");
+//        onCreate(sqLiteDatabase);
     }
 
     private static DatabaseHelper cDatabaseHelper;
