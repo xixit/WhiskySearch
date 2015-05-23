@@ -14,9 +14,11 @@ import geese.dk.whiskysearch.helpers.WhiskySearch;
 
 public class DatabaseHelper extends SQLiteOpenHelper
 {
+    // database name
     private static final String DATABASE_NAME = "whiskyDB.db";
+    // database version
     private static final int DATABASE_VERSION = 1;
-
+    // database table name
     public static final String TABLE_WHISKIES = "whiskies";
 
     public static final String COLUMN_ID = "id";
@@ -32,7 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     // database creation sql statement
     private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " +
-            TABLE_WHISKIES + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            TABLE_WHISKIES + "(" +
+            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_AGE + " TEXT, " +
             COLUMN_STRENGTH + " TEXT, " +
@@ -49,10 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase)
+    public void onCreate(SQLiteDatabase db)
     {
         Log.v("DatabaseHelper", "Creating database!!!");
-        sqLiteDatabase.execSQL(DATABASE_CREATE);
+        db.execSQL(DATABASE_CREATE);
     }
 
     @Override
@@ -74,6 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     public void addWhisky(Whisky whisky)
     {
+        SQLiteDatabase db = this.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, whisky.getName());
         values.put(COLUMN_AGE, whisky.getAge());
@@ -85,10 +90,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
         values.put(COLUMN_IMAGE_URL, whisky.getImageURL());
         values.put(COLUMN_DETAILS_URL, whisky.getDetailsURL());
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // insert or replace
-        db.replace(TABLE_WHISKIES, null, values);
+        // insert (TODO: or replace)
+        db.insert(TABLE_WHISKIES, null, values);
         db.close();
     }
 
@@ -96,9 +99,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         // list containing all found whiskies
         ArrayList<Whisky> whiskies = new ArrayList<Whisky>();
-
-        // get database
-        SQLiteDatabase db = this.getReadableDatabase();
 
         // create query
         String query = "SELECT * FROM " + TABLE_WHISKIES;
@@ -122,8 +122,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
         //if(!search.getBottler().isEmpty())
             query += " OR " + COLUMN_BOTTLER + " LIKE '%" + search.getBottler() + "%'";
 
+        // get database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // run query
         Cursor res =  db.rawQuery(query, null );
 
+        // iterate through results and get whiskies (if any)
         res.moveToFirst();
         while(res.isAfterLast() == false)
         {
@@ -143,6 +148,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
             res.moveToNext();
         }
+
+        // close database
+        db.close();
 
         // finally return list of found whiskies
         return whiskies;
