@@ -2,6 +2,9 @@ package geese.dk.whiskysearch.helpers;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
+
+import java.util.List;
 
 /**
  * Created by f2k on 18-07-2014.
@@ -15,8 +18,10 @@ public class Whisky implements Parcelable
     private String mBottler;
     private String mCaskNumber;
     private String mRating;
+    private String mNumberOfVotes;
     private String mImageURL;
     private String mDetailsURL;
+    private ArrayList<Note> mNotes;
 
     public Whisky()
     {}
@@ -30,8 +35,10 @@ public class Whisky implements Parcelable
         mBottler = bottler;
         mCaskNumber = caskNumber;
         mRating = rating;
+        mNumberOfVotes = "";
         mImageURL = imageURL;
         mDetailsURL = detailsURL;
+        mNotes = new ArrayList<Note>();
     }
 
     public String getName()
@@ -101,6 +108,16 @@ public class Whisky implements Parcelable
         mRating = rating;
     }
 
+    public String getNumberOfVotes()
+    {
+        return mNumberOfVotes;
+    }
+
+    public void setNumberOfVotes(String numberOfVotes)
+    {
+        mNumberOfVotes = numberOfVotes;
+    }
+
     public String getImageURL()
     {
         return mImageURL;
@@ -121,6 +138,15 @@ public class Whisky implements Parcelable
         mDetailsURL = detailsURL;
     }
 
+    public ArrayList<Note> getNotes()
+    {
+        return mNotes;
+    }
+
+    public void setNotes(ArrayList<Note> notes)
+    {
+        this.mNotes = notes;
+    }
 
     public static final Parcelable.Creator<Whisky> CREATOR = new Creator<Whisky>()
     {
@@ -136,8 +162,10 @@ public class Whisky implements Parcelable
             w.setBottler( source.readString() );
             w.setCaskNumber( source.readString() );
             w.setRating( source.readString() );
+            w.setNumberOfVotes( source.readString() );
             w.setImageURL( source.readString() );
             w.setDetailsURL( source.readString() );
+            w.setNotes( source.readArrayList( Note.class.getClassLoader() ) );
 
             return w;
         }
@@ -165,7 +193,9 @@ public class Whisky implements Parcelable
         dest.writeString(mBottler);
         dest.writeString(mCaskNumber);
         dest.writeString(mRating);
+        dest.writeString(mNumberOfVotes);
         dest.writeString(mImageURL);
         dest.writeString(mDetailsURL);
+        dest.writeList(mNotes);
     }
 }
