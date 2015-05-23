@@ -3,6 +3,7 @@ package geese.dk.whiskysearch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import geese.dk.whiskysearch.helpers.Reachability;
 import geese.dk.whiskysearch.helpers.Whisky;
@@ -13,11 +14,10 @@ import android.widget.TextView;
 
 import com.yelp.android.webimageview.WebImageView;
 
+import java.util.Set;
+
 public class WhiskyDetailActivity extends ActionBarActivity
 {
-	private static String OVERALL_RATING_VOTES;
-	private static String OVERALL_RATING_RATING;
-
     // whisky to get and show info about
     private Whisky mWhisky;
 
@@ -93,56 +93,35 @@ public class WhiskyDetailActivity extends ActionBarActivity
 	                    
 	                    if( content != null )
 	                    {
-	                    	OVERALL_RATING_VOTES = content.childNodes().get(0).toString();
-	                    	OVERALL_RATING_VOTES = OVERALL_RATING_VOTES.substring( 0, OVERALL_RATING_VOTES.indexOf( " " ) );
+	                    	mWhisky.setNumberOfVotes( content.childNodes().get(0).toString());
+                            mWhisky.setNumberOfVotes( mWhisky.getNumberOfVotes().substring(0, mWhisky.getNumberOfVotes().indexOf(" ") ) );
 	                    }
 	                    
 	                    content = doc.getElementById( "whisky-rating" );
 	                    
 	                    if( content != null )
 	                    {
-	                    	OVERALL_RATING_RATING = content.childNodes().get(0).toString();
-	                    	OVERALL_RATING_RATING = OVERALL_RATING_RATING.substring( 2, OVERALL_RATING_RATING.length() - 1 );
+                            mWhisky.setRating( content.childNodes().get(0).toString() );
+                            mWhisky.setRating( mWhisky.getRating().substring( 2, mWhisky.getRating().length() - 1 ) );
 	                    }
-	                    
-	                    // Fetch the element that contains the 4 x 25 rating
-	                    content = doc.getElementById( "whisky-average-4x25rating" );
 
-                        if( content != null )
-	                    {
-	                    	// Remove the login warning
-	                    	content.removeClass( "login-warning" );
-	                    	
-	                    	// If the content is now empty, then there are no reviews.
-	                    	// Otherwise, fetch the reviews.
-	                    }
-	                    
-	                    /*
 	                    // Fetch the element that contains basic info about the whisky.
-	                    Element content = doc.getElementById("whisky-info");
-	
-	                    String h = "HEJ!";
+	                    content = doc.getElementById("whisky-notes");
 	                    
 	                    if( content != null )
 	                    {
-	                        Elements elements = content.getElementsByTag("tr");
-	                    	
-                            h = h + "1";
-	
-	                        if( elements.size() > 0 )
-	                        {
+                            for( Element child: content.children() )
+                            {
+                                // If the child has attributes and the attribute contains "whisky-note-note" it's a note.
+                                if( child.attributes() != null && child.attributes().toString().contains("whisky-note-note") )
+                                {
+                                    String s = "";
+                                }
+                            }
 
-	                            // Iterate through them.
-	                            for( Element e: elements )
-	                            {
-
-
-	                            }
-	                        }
+                            String s = "";
 	                    }
-	                    */
-	                    
-	                    String h = "HEJ!";
+
                 	}
 
                 }
