@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.yelp.android.webimageview.ImageLoader;
 
@@ -25,6 +26,7 @@ import geese.dk.whiskysearch.helpers.WhiskySearch;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SearchActivity extends ActionBarActivity
 {
@@ -96,10 +98,10 @@ public class SearchActivity extends ActionBarActivity
                     if(!checkBox.isChecked())
                 	{               	
 	                    // create search
-	                    Document doc = Jsoup.connect( getSearchString() ).get();
-	
-	                    Element content = doc.getElementById("tab-whsk");
-	
+                        Document doc = Jsoup.connect( getSearchString() ).get();
+
+                        Element content = doc.getElementById("tab-whsk");
+
 	                    if( content != null )
 	                    {
 	                        Elements contents = content.getElementsByTag("tbody");
