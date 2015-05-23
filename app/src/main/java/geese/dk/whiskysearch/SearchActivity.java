@@ -99,7 +99,7 @@ public class SearchActivity extends ActionBarActivity
 	                    Document doc = Jsoup.connect( getSearchString() ).get();
 	
 	                    Element content = doc.getElementById("tab-whsk");
-	
+
 	                    if( content != null )
 	                    {
 	                        Elements contents = content.getElementsByTag("tbody");
@@ -114,47 +114,51 @@ public class SearchActivity extends ActionBarActivity
 	                            // Iterate through them.
 	                            for(Element child: children)
 	                            {
-	                                Whisky whisky = new Whisky();
-	
-	                                // Get the full string from the attributes (ugly solution, but only way I can see)
-	                                String detailsString = child.childNode(5).childNode(1).attributes().html();
-	
-	                                // Strip the full string of the beginning and end.
-	                                detailsString = detailsString.substring( 7, detailsString.length() - 1 );
-	
-	                                whisky.setDetailsURL(detailsString);
-	
-	                                // Find the URL for the image.
-	                                // NOTE: not all entries will have an image.
-	
-	                                if( child.childNode(3).childNodes().size() > 1 )
-	                                {
-	                                    // Get the full string from the attributes (ugly solution, but only way I can see)
-	                                   String imageString = child.childNode(3).childNode(1).attributes().asList().get(2).html();
-	
-	                                    // Strip the full string of the beginning and end.
-	                                    imageString = imageString.substring( 12, imageString.length() - 1 );
-	
-	                                    whisky.setImageURL(imageString);
-	                                }
-	                                else
-	                                {
-	                                    whisky.setImageURL(null);
-	                                }
-	
-	                                whisky.setName(((TextNode) (child.childNode(5).childNode(1).childNode(0))).text());
-	                                whisky.setAge(((TextNode) (child.childNode(7).childNode(1).childNode(0))).text());
-	                                whisky.setStrength(((TextNode) (child.childNode(9).childNode(0).childNode(0))).text());
-	                                whisky.setBottled(((TextNode) (child.childNode(11).childNode(0).childNode(0))).text());
-                                    whisky.setCaskNumber(((TextNode) (child.childNode(13).childNode(0).childNode(0))).text());
-                                    whisky.setBottler(((TextNode) (child.childNode(15).childNode(0).childNode(0))).text());
-	                                whisky.setRating(((TextNode) (child.childNode(17).childNode(0).childNode(0))).text());
-	
-	                                whiskyList.add(whisky);
+                                    if( child.childNodes().size() >= 18 )
+                                    {
 
-                                    // and save whisky to DB
-                                    //mDatasource.addWhisky(whisky);
-                                    DatabaseHelper.instance(SearchActivity.this).addWhisky(whisky);
+                                        Whisky whisky = new Whisky();
+
+                                        // Get the full string from the attributes (ugly solution, but only way I can see)
+                                        String detailsString = child.childNode(5).childNode(1).attributes().html();
+
+                                        // Strip the full string of the beginning and end.
+                                        detailsString = detailsString.substring(7, detailsString.length() - 1);
+
+                                        whisky.setDetailsURL(detailsString);
+
+                                        // Find the URL for the image.
+                                        // NOTE: not all entries will have an image.
+
+                                        if (child.childNode(3).childNodes().size() > 1)
+                                        {
+                                            // Get the full string from the attributes (ugly solution, but only way I can see)
+                                            String imageString = child.childNode(3).childNode(1).attributes().asList().get(2).html();
+
+                                            // Strip the full string of the beginning and end.
+                                            imageString = imageString.substring(12, imageString.length() - 1);
+
+                                            whisky.setImageURL(imageString);
+                                        }
+                                        else
+                                        {
+                                            whisky.setImageURL(null);
+                                        }
+
+                                        whisky.setName(((TextNode) (child.childNode(5).childNode(1).childNode(0))).text());
+                                        whisky.setAge(((TextNode) (child.childNode(7).childNode(1).childNode(0))).text());
+                                        whisky.setStrength(((TextNode) (child.childNode(9).childNode(0).childNode(0))).text());
+                                        whisky.setBottled(((TextNode) (child.childNode(11).childNode(0).childNode(0))).text());
+                                        whisky.setCaskNumber(((TextNode) (child.childNode(13).childNode(0).childNode(0))).text());
+                                        whisky.setBottler(((TextNode) (child.childNode(15).childNode(0).childNode(0))).text());
+                                        whisky.setRating(((TextNode) (child.childNode(17).childNode(0).childNode(0))).text());
+
+                                        whiskyList.add(whisky);
+
+                                        // and save whisky to DB
+                                        //mDatasource.addWhisky(whisky);
+                                        DatabaseHelper.instance(SearchActivity.this).addWhisky(whisky);
+                                    }
 	                            }
 	                        }
 	                    }
@@ -217,7 +221,7 @@ public class SearchActivity extends ActionBarActivity
     {
         // TODO: optimize using StringBuilder or something
 
-        String search = "http://whiskybase.com/search?q=";
+        String search = "http://whiskybase.com/search?f=";
 
         String distillery = mEditDistillery.getText().toString();
         if(distillery != null && !distillery.isEmpty())
