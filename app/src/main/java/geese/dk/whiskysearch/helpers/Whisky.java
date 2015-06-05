@@ -24,7 +24,9 @@ public class Whisky implements Parcelable
     private ArrayList<Note> mNotes;
 
     public Whisky()
-    {}
+    {
+        mNotes = new ArrayList<Note>();
+    }
 
     public Whisky( String name, String age, String strength, String bottled, String bottler, String caskNumber, String rating, String imageURL, String detailsURL )
     {
@@ -143,9 +145,14 @@ public class Whisky implements Parcelable
         return mNotes;
     }
 
+    public void setNote(Note note)
+    {
+        mNotes.add( note );
+    }
+
     public void setNotes(ArrayList<Note> notes)
     {
-        this.mNotes = notes;
+        mNotes = notes;
     }
 
     public static final Parcelable.Creator<Whisky> CREATOR = new Creator<Whisky>()

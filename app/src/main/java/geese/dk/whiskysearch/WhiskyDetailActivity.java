@@ -3,13 +3,16 @@ package geese.dk.whiskysearch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import geese.dk.whiskysearch.helpers.Note;
 import geese.dk.whiskysearch.helpers.Reachability;
 import geese.dk.whiskysearch.helpers.Whisky;
 import android.support.v7.app.ActionBarActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.TextView;
 
 import com.yelp.android.webimageview.WebImageView;
@@ -114,6 +117,35 @@ public class WhiskyDetailActivity extends ActionBarActivity
                             {
                                 // If the child has attributes and the attribute contains "whisky-note-note" it's a note.
                                 if( child.attributes() != null && child.attributes().toString().contains("whisky-note-note") )
+                                {
+                                    // Find the node containing the note.
+                                    Node childNode = child.childNode(3);
+
+                                    // Extract the text containing the author.
+                                    String author = childNode.childNode( 1 ).childNode( 1 ).toString();
+                                    // Extract the name of the author.
+                                    author = author.substring(author.indexOf("\">") + 2, author.length() - 4);
+
+                                    // Extract the text containing the date.
+                                    String date = childNode.childNode( 1 ).childNode( 5 ).toString();
+                                    // Remove part of the string.
+                                    // This is needed in order to find the correct substring.
+                                    date = date.replace("<dic class=\"note-rating\">", "");
+                                    // Extract the date.
+                                    date = date.substring(date.indexOf("title=\"") + 7, date.indexOf("\">"));
+
+                                    // Extract the rating.
+                                    String rating = childNode.childNode( 1 ).childNode( 5 ).toString();
+                                    // Extract the rating.
+                                    rating = rating.substring(rating.indexOf("<b>") + 3, rating.indexOf("</b>"));
+
+                                    String note = childNode.childNode( 3 ).childNode( 1 ).toString();
+                                    note = Html.fromHtml( note ).toString();
+
+                                    mWhisky.setNote( new Note(author, date, rating, note) );
+                                }
+                                // If the child has attributes and the attribute contains "whisky-note-taste" it's a tasting note.
+                                else if( child.attributes() != null && child.attributes().toString().contains("whisky-note-tasting") )
                                 {
                                     String s = "";
                                 }
